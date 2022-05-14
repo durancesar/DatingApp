@@ -18,6 +18,7 @@ namespace API.Controllers
     {
         private readonly DataContext _context;
         public ITokenService _tokenService;
+        
         public AccountController(DataContext context, ITokenService tokenService)
         {
             _tokenService = tokenService;
@@ -46,7 +47,8 @@ namespace API.Controllers
                 Token = _tokenService.CreateToken(user)
             };
         }
-
+        
+        [DisableCors]
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
@@ -68,7 +70,9 @@ namespace API.Controllers
             };
     
         }
-        private async Task<bool> UserExists(string username)
+
+ [DisableCors]        
+ private async Task<bool> UserExists(string username)
         {   
             return await _context.Users.AnyAsync( x => x.UserName == username.ToLower());
         }
